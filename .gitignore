@@ -40,3 +40,7 @@ Cargo.lock
 
 # Jetbrains
 .idea/
+
+# App specific
+preferences/
+.env

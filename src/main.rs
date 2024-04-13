@@ -1,4 +1,5 @@
 mod commands;
+mod helpers;
 
 use crate::commands::ChatPreferences;
 use dotenv::dotenv;
@@ -19,14 +20,12 @@ async fn main() {
 
     async fn answer(bot: Bot, msg: Message) -> ResponseResult<()> {
         let text = msg.text().unwrap_or_default();
-        let mut chat_preferences: HashMap<i64, ChatPreferences> = HashMap::new();
         let chat_id = msg.chat.id.0;
-        let preferences = chat_preferences.entry(chat_id).or_insert(ChatPreferences {
-            embed_twitter: true,
-            embed_tiktok: true,
-            embed_instagram: true,
-            embed_x: true,
-        });
+        helpers::load_preferences(chat_id);
+        let mut chat_preferences: HashMap<i64, ChatPreferences> = HashMap::new();
+        let preferences = chat_preferences
+            .entry(chat_id)
+            .or_insert_with(|| helpers::load_preferences(chat_id));
 
         log::info!("Received message: {}", text);
 

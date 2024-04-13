@@ -1,5 +1,6 @@
+use crate::helpers::save_preferences;
+use serde::{Deserialize, Serialize};
 use teloxide::{prelude::*, utils::command::BotCommands};
-
 #[derive(BotCommands, Clone)]
 #[command(
     rename_rule = "lowercase",
@@ -26,6 +27,7 @@ pub enum Command {
     DisableX,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct ChatPreferences {
     pub embed_twitter: bool,
     pub embed_tiktok: bool,
@@ -39,6 +41,7 @@ pub async fn handler(
     preferences: &mut ChatPreferences,
 ) -> ResponseResult<()> {
     let text = msg.text().unwrap_or_default();
+    let chat_id = msg.chat.id.0;
 
     if let Ok(command) = Command::parse(text, "embeds") {
         match command {
@@ -92,6 +95,7 @@ pub async fn handler(
                 let _ = bot.send_message(msg.chat.id, "𝕏 embeds disabled.").await?;
             }
         }
+        save_preferences(chat_id, preferences)?;
     }
 
     Ok(())
