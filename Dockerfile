@@ -1,9 +1,10 @@
-FROM rust:latest as builder
+FROM rust:1-bookworm as builder
 WORKDIR /usr/src/gimme-embeds
 COPY . .
 
 RUN cargo install --path .
 
 FROM debian:bookworm-slim
+WORKDIR /app
 COPY --from=builder /usr/local/cargo/bin/gimme-embeds /usr/local/bin/gimme-embeds
 CMD ["gimme-embeds"]
