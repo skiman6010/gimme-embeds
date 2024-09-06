@@ -6,6 +6,6 @@ RUN cargo install --path .
 
 FROM debian:bookworm-slim
 WORKDIR /app
-RUN apt update && apt install -y libssl3 ca-certificates
+RUN apt update && apt upgrade -y && apt install -y libssl3 ca-certificates
 COPY --from=builder /usr/local/cargo/bin/gimme-embeds /usr/local/bin/gimme-embeds
 CMD ["gimme-embeds"]
