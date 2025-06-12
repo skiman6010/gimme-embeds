@@ -25,6 +25,25 @@ pub enum Command {
     EnableX,
     #[command(description = "Disable 𝕏 embeds.")]
     DisableX,
+    #[command(description = "Use ddinstagram.com for Instagram embeds.")]
+    UseDdInstagram,
+    #[command(description = "Use kkinstagram.com for Instagram embeds.")]
+    UseKkInstagram,
+    #[command(description = "Use instagramez.com for Instagram embeds.")]
+    UseInstagramez,
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum InstagramDomainChoice {
+    Ddinstagram,
+    Kkinstagram,
+    Instagramez,
+}
+
+impl Default for InstagramDomainChoice {
+    fn default() -> Self {
+        InstagramDomainChoice::Kkinstagram
+    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -33,6 +52,8 @@ pub struct ChatPreferences {
     pub embed_tiktok: bool,
     pub embed_instagram: bool,
     pub embed_x: bool,
+    #[serde(default)] // Ensure new field has a default for old stored preferences
+    pub instagram_domain: InstagramDomainChoice,
 }
 
 pub async fn handler(
@@ -93,6 +114,24 @@ pub async fn handler(
             Command::DisableX => {
                 preferences.embed_x = false;
                 let _ = bot.send_message(msg.chat.id, "𝕏 embeds disabled.").await?;
+            }
+            Command::UseDdInstagram => {
+                preferences.instagram_domain = InstagramDomainChoice::Ddinstagram;
+                let _ = bot
+                    .send_message(msg.chat.id, "Instagram embeds will use ddinstagram.com.")
+                    .await?;
+            }
+            Command::UseKkInstagram => {
+                preferences.instagram_domain = InstagramDomainChoice::Kkinstagram;
+                let _ = bot
+                    .send_message(msg.chat.id, "Instagram embeds will use kkinstagram.com.")
+                    .await?;
+            }
+            Command::UseInstagramez => {
+                preferences.instagram_domain = InstagramDomainChoice::Instagramez;
+                let _ = bot
+                    .send_message(msg.chat.id, "Instagram embeds will use instagramez.com.")
+                    .await?;
             }
         }
         save_preferences(chat_id, preferences)?;

@@ -1,4 +1,5 @@
 use crate::commands::ChatPreferences;
+use crate::commands::InstagramDomainChoice;
 use std::fs::{DirBuilder, File};
 use std::io::Read;
 use std::io::Write;
@@ -31,6 +32,7 @@ pub fn load_preferences(chat_id: i64) -> ChatPreferences {
                 embed_tiktok: true,
                 embed_instagram: true,
                 embed_x: true,
+                instagram_domain: InstagramDomainChoice::Kkinstagram,
             }
         }
     }

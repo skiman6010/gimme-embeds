@@ -1,7 +1,7 @@
 mod commands;
 mod helpers;
 
-use crate::commands::ChatPreferences;
+use crate::commands::{ChatPreferences, InstagramDomainChoice};
 use dotenv::dotenv;
 use regex::Regex;
 use std::collections::HashMap;
@@ -31,6 +31,13 @@ async fn main() {
 
         commands::handler(bot.clone(), msg.clone(), preferences).await?;
 
+        let instagram_domain_str = match preferences.instagram_domain {
+            InstagramDomainChoice::Ddinstagram => "ddinstagram.com",
+            InstagramDomainChoice::Kkinstagram => "kkinstagram.com",
+            InstagramDomainChoice::Instagramez => "instagramez.com",
+        };
+        let instagram_replacement = format!("{}/{}", instagram_domain_str, "${chunk}");
+
         let url_patterns = vec![
             (
                 Regex::new(r"(?P<url>twitter.com/)(?P<chunk>\S+)").unwrap(),
@@ -44,7 +51,7 @@ async fn main() {
             ),
             (
                 Regex::new(r"(?P<url>instagram.com/)(?P<chunk>\S+)").unwrap(),
-                "ddinstagram.com/${chunk}",
+                &instagram_replacement,
                 &preferences.embed_instagram,
             ),
             (
