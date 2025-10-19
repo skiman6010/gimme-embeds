@@ -40,17 +40,17 @@ async fn main() {
 
         let url_patterns = vec![
             (
-                Regex::new(r"(?P<url>twitter.com/)(?P<chunk>\S+)").unwrap(),
+                Regex::new(r"(?P<url>\btwitter.com/)(?P<chunk>\S+)").unwrap(),
                 "vxtwitter.com/${chunk}",
                 &preferences.embed_twitter,
             ),
             (
-                Regex::new(r"(?P<url>tiktok.com/)(?P<chunk>\S+)").unwrap(),
+                Regex::new(r"(?P<url>\btiktok.com/)(?P<chunk>\S+)").unwrap(),
                 "vxtiktok.com/${chunk}",
                 &preferences.embed_tiktok,
             ),
             (
-                Regex::new(r"(?P<url>instagram.com/)(?P<chunk>\S+)").unwrap(),
+                Regex::new(r"(?P<url>\binstagram.com/)(?P<chunk>\S+)").unwrap(),
                 &instagram_replacement,
                 &preferences.embed_instagram,
             ),
@@ -70,8 +70,6 @@ async fn main() {
             if *enabled
                 && re.is_match(&text)
                 && !anti_url_patterns.iter().any(|re| re.is_match(&text))
-                && !text.starts_with("https://vx")
-                && !text.starts_with("https://dd")
             {
                 log::info!("URL detected: {}", text);
                 let url_without_tracking = text.split('?').next().unwrap_or(&text);
