@@ -1,0 +1,8 @@
+services:
+  bot:
+    restart: unless-stopped
+    image: ghcr.io/skiman6010/gimme-embeds:edge
+    env_file:
+      - path: ./.env
+    volumes:
+      - ./data/preferences:/app/preferences

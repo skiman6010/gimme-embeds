@@ -44,3 +44,4 @@ Cargo.lock
 # App specific
 preferences/
 .env
+.DS_Store
