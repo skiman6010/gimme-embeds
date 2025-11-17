@@ -46,7 +46,7 @@ async fn main() {
             ),
             (
                 Regex::new(r"(?P<url>\btiktok.com/)(?P<chunk>\S+)").unwrap(),
-                "vxtiktok.com/${chunk}",
+                "kktiktok.com/${chunk}",
                 &preferences.embed_tiktok,
             ),
             (
