@@ -35,6 +35,7 @@ async fn main() {
             InstagramDomainChoice::Ddinstagram => "ddinstagram.com",
             InstagramDomainChoice::Kkinstagram => "kkinstagram.com",
             InstagramDomainChoice::Instagramez => "instagramez.com",
+            InstagramDomainChoice::Kksave => "kksave.com",
         };
         let instagram_replacement = format!("{}/{}", instagram_domain_str, "${chunk}");
 

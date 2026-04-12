@@ -31,6 +31,8 @@ pub enum Command {
     UseKkInstagram,
     #[command(description = "Use instagramez.com for Instagram embeds.")]
     UseInstagramez,
+    #[command(description = "Use kksave.com for Instagram embeds.")]
+    UseKksave,
 }
 
 #[derive(Serialize, Deserialize, Clone, Copy, Debug)]
@@ -38,6 +40,7 @@ pub enum InstagramDomainChoice {
     Ddinstagram,
     Kkinstagram,
     Instagramez,
+    Kksave,
 }
 
 impl Default for InstagramDomainChoice {
@@ -131,6 +134,12 @@ pub async fn handler(
                 preferences.instagram_domain = InstagramDomainChoice::Instagramez;
                 let _ = bot
                     .send_message(msg.chat.id, "Instagram embeds will use instagramez.com.")
+                    .await?;
+            }
+            Command::UseKksave => {
+                preferences.instagram_domain = InstagramDomainChoice::Kksave;
+                let _ = bot
+                    .send_message(msg.chat.id, "Instagram embeds will use kksave.com.")
                     .await?;
             }
         }
