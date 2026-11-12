@@ -1,4 +1,4 @@
-FROM rust:1-trixie as builder
+FROM rust:1-trixie AS builder
 WORKDIR /usr/src/gimme-embeds
 COPY . .
 

@@ -5,7 +5,7 @@ use crate::commands::{ChatPreferences, InstagramDomainChoice};
 use dotenv::dotenv;
 use regex::Regex;
 use std::collections::HashMap;
-use teloxide::prelude::*;
+use teloxide::{prelude::*, types::ReplyParameters};
 
 #[tokio::main]
 async fn main() {
@@ -79,7 +79,7 @@ async fn main() {
                 log::info!("New URL: {}", new_url);
                 let _ = bot
                     .send_message(msg.chat.id, new_url)
-                    .reply_to_message_id(msg.id)
+                    .reply_parameters(ReplyParameters::new(msg.id))
                     .await?;
                 break;
             }

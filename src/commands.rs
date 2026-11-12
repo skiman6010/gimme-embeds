@@ -152,7 +152,7 @@ pub async fn handler(
                     .await?;
             }
         }
-        save_preferences(chat_id, preferences)?;
+        save_preferences(chat_id, preferences).map_err(std::sync::Arc::new)?;
     }
 
     Ok(())
